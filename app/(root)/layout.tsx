@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import '../globals.css'
-import { Layout } from '@/src/views'
+import { Layout } from '@/src/widgets'
 
 export const metadata: Metadata = {
 	title: 'CRM',

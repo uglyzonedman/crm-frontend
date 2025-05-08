@@ -1,5 +1,5 @@
 import { Form } from '@/src/features/sign-in'
-import { Info } from '@/src/views'
+import { Info } from '@/src/widgets'
 import React from 'react'
 
 export const SignInScreen = () => {
