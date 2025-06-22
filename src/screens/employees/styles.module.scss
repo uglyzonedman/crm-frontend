@@ -1,0 +1,153 @@
+.employees h1 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.employees-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  background-color: #f9fbfd;
+  border-radius: 24px;
+  padding: 20px 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  font-size: 14px;
+  color: #333;
+}
+
+.employee-detail {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 140px;
+}
+
+.employees-info h1 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.employees-info p {
+  margin: 4px 0 0;
+  line-height: 1.4;
+}
+
+.employees-info span {
+  color: #888;
+  font-size: 12px;
+}
+
+.employee-personal {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-right: 120px;
+}
+
+.employees-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.employee-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.employees-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+  margin-top: 51px;
+}
+
+.employees-header h1 {
+  margin-left: 10px;
+}
+
+.header-actions {
+  display: flex;
+}
+
+.icon-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border: none;
+  padding: 12px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  margin-right: 24px;
+
+  &:hover {
+    background: #dbe3ec;
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+    color: #333;
+  }
+}
+
+.add-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background-color: #3478f6;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  width: 180px;
+
+  &:hover {
+    background-color: #245edc;
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.header-tabs {
+  display: flex;
+  background-color: #e6edf5;
+  border-radius: 24px;
+}
+
+.tab-button_left {
+  padding: 9px 48px;
+  background: #3f8cff;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #ffffff;
+}
+
+.tab-button_right {
+  padding: 9px 48px;
+  background-color: transparent;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #333;
+}
