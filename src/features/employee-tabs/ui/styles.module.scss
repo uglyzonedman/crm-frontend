@@ -1,0 +1,24 @@
+.tabs {
+	display: flex;
+	background-color: #e6edf5;
+	border-radius: 24px;
+	flex-wrap: wrap;
+	&-item {
+		border-radius: 24px;
+		background: transparent;
+		border: none;
+		margin: 6px;
+		padding: 10px 62px;
+		color: #0a1629;
+		cursor: pointer;
+		font-size: 16px;
+		white-space: nowrap;
+	}
+}
+
+.active-tab {
+	background-color: #3f8cff;
+	margin: 4px;
+	color: #fff;
+	font-weight: bold;
+}

@@ -1,1 +1,2 @@
-export { Sidebar, SearchInput } from "./ui";
+export { Sidebar, SearchInput, MainHeader } from './ui'
+export { RootLayout } from './layouts'

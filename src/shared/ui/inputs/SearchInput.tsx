@@ -1,15 +1,15 @@
-import { SearchIcon } from "lucide-react";
-import React from "react";
-
+import { SearchIcon } from 'lucide-react'
+import React from 'react'
+import styles from './styles.module.scss'
 export const SearchInput = () => {
-  return (
-    <div className="flex bg-[#FFFFFF] px-5 py-3 rounded-2xl max-w-[412px] w-full">
-      <SearchIcon size={24} />
-      <input
-        type="text"
-        placeholder="Search"
-        className="ml-2 outline-0 w-full"
-      />
-    </div>
-  );
-};
+	return (
+		<div className={styles['search-input']}>
+			<SearchIcon size={24} />
+			<input
+				type='text'
+				placeholder='Search'
+				className={styles['search-input__field']}
+			/>
+		</div>
+	)
+}

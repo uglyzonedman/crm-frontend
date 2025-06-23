@@ -1,0 +1,11 @@
+.root {
+	&-wrapper {
+		display: flex;
+		height: 100vh;
+	}
+	&-main {
+		flex: 1 1 0%;
+		padding: 1.5rem;
+		overflow-y: auto;
+	}
+}
