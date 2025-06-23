@@ -1,0 +1,69 @@
+.sidebar {
+	width: 16rem; /* 256px */
+	background-color: white; /* #ffffff */
+	padding-top: 2rem; /* 32px */
+	padding-bottom: 2rem; /* 32px */
+	margin: 1.25rem; /* 20px со всех сторон */
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	border-radius: 1.5rem;
+	&-logo {
+		padding-left: 1.5rem; /* 24px */
+		padding-right: 1.5rem; /* 24px */
+	}
+	&-nav {
+		display: flex; /* flex-контейнер */
+		flex-direction: column; /* вертикальное направление */
+		gap: 0.5rem; /* расстояние между элементами — 8px */
+		margin-top: 2.5rem; /* отступ сверху — 40px */
+		padding-left: 0.75rem; /* внутренний отступ слева — 12px */
+		padding-right: 0.75rem;
+		&__item {
+			display: flex;
+			align-items: center;
+			gap: 0.5rem; /* 8px между дочерними элементами */
+			padding-top: 0.5rem; /* 8px */
+			padding-bottom: 0.5rem; /* 8px */
+			padding-left: 1rem; /* 16px */
+			padding-right: 1rem; /* 16px */
+			border-radius: 1rem; /* 16px — rounded-2xl */
+			color: #1f2937; /* текст — gray-800 */
+			margin-bottom: 1rem; /* 16px */
+			transition: background-color 0.2s ease;
+			text-decoration: none;
+			&:hover {
+				background-color: #ebf3ff;
+			}
+			&__title {
+				color: #7d8592; /* Серо-синий цвет текста */
+				font-weight: 600; /* Полужирный (semibold) */
+				font-size: 1rem; /* 16px — базовый размер текста */
+				line-height: 1.5rem;
+			}
+		}
+	}
+	&-support {
+		position: relative; /* Позиционирование — относительное */
+		display: flex; /* Flexbox-контейнер */
+		justify-content: center;
+		&__btn {
+			border: none;
+			position: absolute;
+			bottom: 1rem; /* 16px от нижнего края */
+			left: 50%; /* Центрирование по горизонтали */
+			transform: translateX(-50%); /* Смещение на 50% влево для центрирования */
+			cursor: pointer; /* Курсор при наведении — "рука" */
+			display: flex;
+			align-items: center; /* Выравнивание дочерних элементов по вертикали */
+			background-color: #3f8cff; /* Ярко-синий фон */
+			padding: 0.75rem; /* 12px отступ со всех сторон */
+			border-radius: 1.5rem;
+			&__text {
+				color: white; /* Белый цвет текста */
+				font-weight: 700; /* Жирное начертание шрифта */
+				margin-left: 0.5rem;
+			}
+		}
+	}
+}
