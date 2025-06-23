@@ -5,5 +5,5 @@ export interface IEmployee {
   gender: string;
   birthday: string;
   fullAge: number;
-  position: string;
+  Position: string;
 }

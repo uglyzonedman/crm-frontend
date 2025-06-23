@@ -1,42 +1,34 @@
-import React from 'react'
-import { IEmployee } from '../../model'
-import styles from './styles.module.scss'
-import { EllipsisVertical } from 'lucide-react'
+import React from "react";
+import { IEmployee } from "../../model";
+import { EmployeeCardList } from "./EmployeeCardList";
+import { EmployeeCardTable } from "./EmployeeCardTable";
 
 interface Props {
-	employee: IEmployee
+  employee: IEmployee;
+  activeTab: string;
 }
 
-const detailFields = [
-	{ key: 'gender', label: 'Пол' },
-	{ key: 'birthday', label: 'Дата рождения' },
-	{ key: 'fullAge', label: 'Полный возраст' },
-	{ key: 'Position', label: 'Должность' },
-] as const
+const detailFields: { key: keyof IEmployee; label: string }[] = [
+  { key: "gender", label: "Пол" },
+  { key: "birthday", label: "Дата рождения" },
+  { key: "fullAge", label: "Полный возраст" },
+  { key: "position", label: "Должность" },
+];
 
-export const EmployeeCard = ({ employee }: Props) => {
-	return (
-		<div className={styles['card']}>
-			<div className={styles['card-personal']}>
-				<div className={styles['card-personal__avatar']}>
-					<span>{employee.fullname[0]}</span>
-				</div>
-				<div className={styles['card-personal__info']}>
-					<span>{employee.fullname}</span>
-					<p>{employee.email}</p>
-				</div>
-			</div>
+export const EmployeeCard = ({ employee, activeTab }: Props) => {
+  const renderActiveTab = (activeTab: string) => {
+    switch (activeTab) {
+      case "list":
+        return (
+          <EmployeeCardList detailFields={detailFields} employee={employee} />
+        );
 
-			{detailFields.map(field => (
-				<div key={field.key} className={styles['card-personal__detail']}>
-					<span>{field.label}</span>
-					<p>{employee[field.key]}</p>
-				</div>
-			))}
+      case "table":
+        return <EmployeeCardTable employee={employee} />;
 
-			<button className={styles['card-personal__more']}>
-				<EllipsisVertical />
-			</button>
-		</div>
-	)
-}
+      default:
+        break;
+    }
+  };
+  return renderActiveTab(activeTab);
+};
