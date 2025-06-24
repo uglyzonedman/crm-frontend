@@ -14,7 +14,7 @@ export const MainHeader = () => {
 
 				<div className={styles['main-header__profile']}>
 					<div className={styles['main-header__profile__nophoto']}></div>
-					<p className={styles['main-header__profile__title']}>Evan Yates</p>
+					<p className={styles['main-header__profile__title']}>uglyzoned</p>
 					<ChevronDown />
 				</div>
 			</div>

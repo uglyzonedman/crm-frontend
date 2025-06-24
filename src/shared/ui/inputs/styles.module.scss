@@ -18,3 +18,31 @@
 		}
 	}
 }
+
+.input {
+	border: 1px solid #d8e0f0;
+	background: transparent;
+	border-radius: 14px;
+	padding: 12px 18px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	input {
+		border: none;
+		outline: none;
+		flex: 1;
+		background: transparent;
+		font-size: 16px;
+		color: #7d8592;
+		&:-webkit-autofill {
+			box-shadow: 0 0 0px 1000px white inset !important;
+			-webkit-text-fill-color: #000 !important;
+			transition: background-color 9999s ease-in-out 0s;
+		}
+	}
+
+	svg {
+		cursor: pointer;
+		color: #6c7a96;
+	}
+}

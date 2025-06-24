@@ -1,0 +1,57 @@
+/* CustomCheckbox.module.scss */
+.wrapper {
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+}
+
+.input {
+	position: absolute;
+	opacity: 0;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+}
+
+.label {
+	position: relative;
+	padding-left: 40px;
+	cursor: pointer;
+	user-select: none;
+	font-size: 16px;
+	color: #7d8592;
+
+	&::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 24px;
+		height: 24px;
+		border: 2px solid #0a1629;
+		border-radius: 4px;
+		background: #fff;
+		box-sizing: border-box;
+		transition: background 0.2s ease;
+	}
+
+	/* Галочка */
+	.input:checked + &::after {
+		content: '✓';
+		position: absolute;
+		left: 0px;
+		top: 50%;
+		transform: translateY(-50%);
+		font-size: 20px;
+		color: #3f8cff;
+		width: 24px;
+		font-weight: bold;
+		height: 24px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 4px;
+	}
+}

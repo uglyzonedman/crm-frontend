@@ -7,7 +7,7 @@ export const SearchInput = () => {
 			<SearchIcon size={24} />
 			<input
 				type='text'
-				placeholder='Search'
+				placeholder='Поиск...'
 				className={styles['search-input__field']}
 			/>
 		</div>
