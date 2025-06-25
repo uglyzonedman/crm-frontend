@@ -1,4 +1,4 @@
-import { ILoginRequest } from '@/src/shared'
+import { ILoginRequest } from '@/shared'
 
 export interface AuthState {
 	token: string | null
@@ -6,4 +6,5 @@ export interface AuthState {
 	login: (data: ILoginRequest) => Promise<void>
 	logout: () => void
 	status: string | null
+	user: any | null
 }

@@ -1,10 +1,14 @@
 html,
 body {
-	background: #F4F9FD;
+	background: #f4f9fd;
 	font-family: 'Nunito Sans', sans-serif;
 }
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
 
-/* Указываем box sizing */
 *,
 *::before,
 *::after {

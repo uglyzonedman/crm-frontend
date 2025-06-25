@@ -1,0 +1,1 @@
+export { RecoveryPasswordScreen } from './RecoveryPassword'

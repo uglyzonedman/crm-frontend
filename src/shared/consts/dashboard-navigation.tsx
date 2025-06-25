@@ -8,27 +8,27 @@ import {
 
 export const navigations = [
 	{
-		title: 'Дэшбоард',
+		title: 'Dashboard',
 		url: '#',
 		icon: <LayoutDashboard className='w-5 h-5 text-[#7D8592]' size={24} />,
 	},
 	{
-		title: 'Проекты',
+		title: 'Projects',
 		url: '#',
 		icon: <FolderKanban className='w-5 h-5 text-[#7D8592]' size={24} />,
 	},
 	{
-		title: 'Календарь',
+		title: 'Calendar',
 		url: '#',
 		icon: <Plane className='w-5 h-5 text-[#7D8592]' size={24} />,
 	},
 	{
-		title: 'Сотрудники',
+		title: 'Employees',
 		url: '/employees',
 		icon: <Users className='w-5 h-5 text-[#7D8592]' size={24} />,
 	},
 	{
-		title: 'Мессенджер',
+		title: 'Messenger',
 		url: '#',
 		icon: <MessageCircle className='text-[#7D8592]' size={24} />,
 	},

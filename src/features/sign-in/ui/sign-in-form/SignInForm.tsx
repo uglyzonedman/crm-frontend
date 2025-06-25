@@ -1,9 +1,10 @@
+'use client'
 import React, { useState } from 'react'
 import styles from './styles.module.scss'
-import { Button, Checkbox, ILoginRequest, Input, Label } from '@/src/shared'
+import { Button, Checkbox, ILoginRequest, Input, Label } from '@/shared'
 import Link from 'next/link'
 import { MoveRight } from 'lucide-react'
-import { AuthStore } from '../../models/store'
+import { AuthStore } from '@/features/sign-in'
 import { useRouter } from 'next/navigation'
 export const SignInForm = () => {
 	const [showPassword, setShowPassword] = useState(false)
@@ -73,7 +74,7 @@ export const SignInForm = () => {
 					checked={rememberMe}
 					onChange={e => setRememberMe(e.target.checked)}
 				/>
-				<Link href={'/'}>Забыл пароль?</Link>
+				<Link href={'/recovery-password/zxclobby'}>Забыл пароль?</Link>
 			</div>
 			<Button
 				type='submit'

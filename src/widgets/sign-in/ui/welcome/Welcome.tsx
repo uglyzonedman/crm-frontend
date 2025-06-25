@@ -1,8 +1,8 @@
 import React from 'react'
 import styles from './styles.module.scss'
-import logo from '@/src/assets/images/LogoSign.png'
+import logo from '@/assets/images/LogoSign.png'
 import Image from 'next/image'
-import welcome from '@/src/assets/images/signinphoto.png'
+import welcome from '@/assets/images/signinphoto.png'
 export const Welcome = () => {
 	return (
 		<div className={styles['welcome']}>

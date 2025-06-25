@@ -1,8 +1,8 @@
-import React from "react";
-import { EmployeesScreen } from "@/src/screens/employees";
+import React from 'react'
+import { EmployeesScreen } from '@/screens/employees'
 
 const EmployeesPage = () => {
-  return <EmployeesScreen />;
-};
+	return <EmployeesScreen />
+}
 
-export default EmployeesPage;
+export default EmployeesPage

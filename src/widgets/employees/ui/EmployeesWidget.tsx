@@ -1,7 +1,4 @@
-import { EmployeeCard } from '@/src/entities'
-import { TabSwitcher } from '@/src/features/employee-tabs/ui'
-import { employeesList } from '@/src/shared/consts/employees_list'
-import React, { useState } from 'react'
+import React from 'react'
 
 export const EmployeesWidget = () => {
 	return (

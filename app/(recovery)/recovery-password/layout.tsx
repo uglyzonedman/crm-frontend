@@ -1,18 +1,10 @@
-import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
-import '../globals.css'
-import { RootLayout } from '@/shared'
-
-export const metadata: Metadata = {
-	title: 'CRM',
-	description: 'CRM 24',
-}
-
-export default function Layout({
+import React from 'react'
+import '../../globals.css'
+const RecoveryPasswordLayout = ({
 	children,
-}: Readonly<{
+}: {
 	children: React.ReactNode
-}>) {
+}) => {
 	return (
 		<html lang='ru'>
 			<head>
@@ -28,8 +20,10 @@ export default function Layout({
 				/>
 			</head>
 			<body>
-				<RootLayout>{children}</RootLayout>
+				<main>{children}</main>
 			</body>
 		</html>
 	)
 }
+
+export default RecoveryPasswordLayout
