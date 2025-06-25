@@ -1,4 +1,4 @@
-import { SignInScreen } from '@/src/screens'
+import { SignInScreen } from '@/screens'
 import React from 'react'
 
 const SignInPage = () => {

@@ -1,3 +1,6 @@
 export { Sidebar, navigations } from './sidebar'
-export { SearchInput } from './inputs'
+export { SearchInput, Input } from './inputs'
 export { MainHeader } from './headers'
+export { Label } from './labels'
+export { Checkbox } from './checkbox'
+export { Button } from './button'

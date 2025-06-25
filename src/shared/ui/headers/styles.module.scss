@@ -17,28 +17,32 @@
 			}
 		}
 		&__profile {
-			display: flex; /* Flex-контейнер */
-			align-items: center; /* Центрирование по вертикали */
-			background-color: white; /* Белый фон */
-			padding-top: 0.5rem; /* 8px */
-			padding-bottom: 0.5rem; /* 8px */
-			padding-left: 0.75rem; /* 12px */
-			padding-right: 0.75rem; /* 12px */
-			border-radius: 0.75rem; /* 12px скругление */
+			display: flex;
+			align-items: center;
+			background-color: white;
+			padding-top: 0.5rem;
+			padding-bottom: 0.5rem;
+			padding-left: 0.75rem;
+			padding-right: 0.75rem;
+			border-radius: 0.75rem;
 			margin-left: 1.5rem;
 			&__nophoto {
+				font-weight: bold;
+				display: flex;
+				justify-content: center;
+				align-items: center;
 				height: 30px;
 				width: 30px;
 				background-color: #d1d5db;
 				border-radius: 1rem;
 			}
 			&__title {
-				font-weight: 700; /* Жирный шрифт */
-				color: #0a1629; /* Тёмный синий/чёрный цвет текста */
-				font-size: 1rem; /* 16px */
-				line-height: 1.5rem; /* 24px — соответствует text-base */
-				margin-left: 0.75rem; /* 12px */
-				margin-right: 0.75rem; /* 12px */
+				font-weight: 700;
+				color: #0a1629;
+				font-size: 1rem;
+				line-height: 1.5rem;
+				margin-left: 0.75rem;
+				margin-right: 0.75rem;
 			}
 		}
 	}

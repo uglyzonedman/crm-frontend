@@ -1,12 +1,13 @@
-import { Info } from '@/src/views'
+'use client'
+import { Welcome } from '@/widgets'
 import React from 'react'
-
+import styles from './styles.module.scss'
+import { SignInForm } from '@/features'
 export const SignInScreen = () => {
 	return (
-		<div className='flex'>
-			<div className='bg-[#3F8CFF]'>
-				<Info />
-			</div>
+		<div className={styles['wrapper']}>
+			<Welcome />
+			<SignInForm />
 		</div>
 	)
 }

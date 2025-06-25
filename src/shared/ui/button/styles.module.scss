@@ -1,0 +1,22 @@
+.primary {
+	display: flex;
+	background: #3f8cff;
+	color: #fff;
+	border: none;
+	align-items: center;
+	font-size: 16px;
+	font-weight: bold;
+	padding: 12px 42px;
+	border-radius: 14px;
+}
+
+.icon {
+	&-right {
+		display: flex;
+		margin-left: 8px;
+	}
+	&-left {
+		margin-right: 8px;
+		display: flex;
+	}
+}

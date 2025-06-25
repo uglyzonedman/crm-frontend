@@ -1,10 +1,10 @@
 import React from 'react'
-import logo from '@/src/assets/images/Logo.png'
-import support from '@/src/assets/images/Support.png'
+import logo from '@/assets/images/Logo.png'
+import support from '@/assets/images/Support.png'
 import Image from 'next/image'
 import Link from 'next/link'
 import { MessageCircle } from 'lucide-react'
-import { navigations } from './data'
+import { navigations } from '@/shared'
 import styles from './styles.module.scss'
 
 export const Sidebar = () => {
