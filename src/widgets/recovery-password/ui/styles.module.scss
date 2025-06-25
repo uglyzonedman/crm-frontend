@@ -4,8 +4,33 @@
 	width: 20%;
 	border-radius: 20px;
 	&-title {
+		margin-top: 20px;
 		color: #ffffff;
 		font-size: 36px;
 		font-weight: bold;
+	}
+	&-statuses {
+		margin-top: 20px;
+		&__item {
+			display: flex;
+			align-items: center;
+			&__circle {
+				width: 48px;
+				height: 48px;
+				border-radius: 100%;
+				border: 3px solid #fff;
+			}
+			&__title {
+				font-size: 20px;
+				margin-left: 16px;
+				font-weight: bold;
+				color: #fff;
+			}
+			&__border {
+				width: 3px;
+				height: 40px;
+				background: #fff;
+			}
+		}
 	}
 }
