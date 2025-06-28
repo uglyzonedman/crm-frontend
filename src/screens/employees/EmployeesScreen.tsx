@@ -1,9 +1,9 @@
 "use client";
 import React, { useState } from "react";
-import { EmployeeCard } from "@/src/entities";
-import { EmployeesHeader } from "@/src/widgets";
-import { employeesList } from "@/src/shared/consts/employees_list";
-import { EmployeePagination } from "@/src/features";
+import { EmployeeCard } from "@/entities";
+import { EmployeesHeader } from "@/widgets";
+import { employeesList } from "@/shared/consts/employees_list";
+import { EmployeePagination } from "@/features";
 import styles from "./styles.module.scss";
 export const EmployeesScreen = () => {
   const [activeTab, setActiveTab] = useState("list");
