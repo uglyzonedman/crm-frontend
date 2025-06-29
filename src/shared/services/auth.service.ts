@@ -1,9 +1,15 @@
-import { axiosInstance } from '../api'
-import { ILoginRequest } from '../types'
+import { axiosInstance } from "../api";
+import { ILoginRequest, IVerifyLogin } from "../types";
 
 export const AuthService = {
-	login: async ({ identifier, password }: ILoginRequest) => {
-		const res = await axiosInstance.post('auth/login', { identifier, password })
-		return res.data
-	},
-}
+  login: async ({ identifier }: ILoginRequest) => {
+    const res = await axiosInstance.post("auth/login", {
+      identifier,
+    });
+    return res.data;
+  },
+  verifyLogin: async ({ code }: IVerifyLogin) => {
+    const res = await axiosInstance.post(`auth/verify-login/${code}`);
+    return res.data;
+  },
+};
