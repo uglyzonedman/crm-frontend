@@ -1,0 +1,18 @@
+.notification {
+  max-width: 600px;
+  width: 100%;
+  margin: 30px auto 0;
+  border-radius: 14px;
+  padding: 20px;
+  background: #f4f9fd;
+  &-extend {
+    display: flex;
+    align-items: center;
+    &__description {
+      font-size: 14px;
+      color: #3f8cff;
+      font-weight: 500;
+      margin-left: 6px;
+    }
+  }
+}
