@@ -1,0 +1,1 @@
+export { InfoPortal } from './InfoPortal'

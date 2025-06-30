@@ -1,0 +1,59 @@
+.users {
+  margin-top: 20px;
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    &__title {
+      color: #0a1629;
+      font-size: 22px;
+      font-weight: bold;
+    }
+    &__link {
+      color: #3f8cff;
+      font-size: 16px;
+      text-decoration: none;
+    }
+  }
+  &-list {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    &__card {
+      padding: 18px 38px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #fff;
+      border-radius: 24px;
+      &__avatar {
+        width: 50px;
+        height: 50px;
+        background-color: #d1d5db;
+        border-radius: 100%;
+        margin-bottom: 12px;
+      }
+      &__login {
+        color: #0a1629;
+        font-size: 16px;
+        font-weight: bold;
+      }
+      &__position {
+        color: #0a1629;
+        font-size: 14px;
+        margin: 4px 0;
+      }
+      &__level {
+        color: #7d8592;
+        padding: 4px;
+        border: 1px solid #7d8592;
+        border-radius: 12px;
+        p {
+          font-size: 12px;
+          font: 500;
+        }
+      }
+    }
+  }
+}
