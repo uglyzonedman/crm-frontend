@@ -1,0 +1,37 @@
+.promo {
+  &-company {
+    padding: 44px;
+
+    margin-top: 20px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    background: #ffffff;
+    border-radius: 24px;
+    overflow: hidden;
+
+    &__info {
+      &__title {
+        color: #0a1629;
+        font-size: 22px;
+        font-weight: bold;
+      }
+      &__description {
+        display: block;
+        color: #0a1629;
+        font-size: 16px;
+        margin-top: 16px;
+      }
+      &__create {
+        cursor: pointer;
+        margin-top: 16px;
+      }
+    }
+  }
+  &-image {
+    position: absolute;
+    right: 100px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}

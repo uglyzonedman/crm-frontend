@@ -1,0 +1,1 @@
+export { PromoOrganization } from './PromoOrganization'
