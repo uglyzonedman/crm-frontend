@@ -1,86 +1,63 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
+
 export const axiosInstance = axios.create({
 	baseURL: 'http://localhost:8080/api/',
-})
-
-axiosInstance.interceptors.request.use(config => {
-	const token = Cookies.get('accessToken')
-	if (token) {
-		config.headers.Authorization = `Bearer ${token}`
-	}
-	return config
+	withCredentials: true,
 })
 
 let isRefreshing = false
-let failedQueue: any[] = []
+let queue: any[] = []
 
-const processQueue = (error: any, token: string | null = null) => {
-	failedQueue.forEach(prom => {
-		if (error) {
-			prom.reject(error)
-		} else {
-			prom.resolve(token)
-		}
-	})
-	failedQueue = []
-}
+axiosInstance.interceptors.request.use(config => {
+	const token = Cookies.get('accessToken')
+	if (token) config.headers.Authorization = `Bearer ${token}`
+	return config
+})
 
 axiosInstance.interceptors.response.use(
-	response => response,
+	res => res,
 	async error => {
 		const originalRequest = error.config
 
-		if (
-			error.response?.status === 401 &&
-			!originalRequest._retry &&
-			!originalRequest.url.includes('/auth/refresh')
-		) {
+		if (error.response?.status === 401 && !originalRequest._retry) {
 			if (isRefreshing) {
-				return new Promise((resolve, reject) => {
-					failedQueue.push({
-						resolve: (token: string) => {
-							originalRequest.headers['Authorization'] = 'Bearer ' + token
-							resolve(axiosInstance(originalRequest))
-						},
-						reject: (err: any) => reject(err),
-					})
-				})
+				return new Promise(resolve => queue.push(resolve))
 			}
 
 			originalRequest._retry = true
 			isRefreshing = true
-
 			try {
-				const refreshToken = Cookies.get('refreshToken')
-				if (!refreshToken) throw new Error('No refresh token')
-
-				const response = await axios.put(
-					'http://localhost:8080/api/session/update-session',
-					{
-						refreshToken,
-					}
-				)
-
-				const newAccessToken = response.data.data.accessToken
-				const newRefreshToken = response.data.data.refreshToken
-				Cookies.set('accessToken', newAccessToken, {
-					expires: response.data.data.accessTokenExpiresInMs,
-				})
-				Cookies.set('refreshToken', newRefreshToken, {
-					expires: response.data.data.refreshTokenExpiresInMs,
+				const oldrefreshToken = Cookies.get('refreshToken')
+				console.log('oldrefreshToken', oldrefreshToken)
+				const res = await axiosInstance.put('/session/update-session', {
+					refreshToken: oldrefreshToken,
 				})
 
-				processQueue(null, newAccessToken)
+				console.log('res.data', res.data)
+				const accessToken = res.data.data.accessToken
+				const refreshToken = res.data.data.refreshToken
+				const accessTokenExpiresInMs = res.data.data.accessTokenExpiresInMs
+				const refreshTokenExpiresInMs = res.data.data.refreshTokenExpiresInMs
 
-				originalRequest.headers['Authorization'] = 'Bearer ' + newAccessToken
+				const accessTokenExpiresAt = new Date(accessTokenExpiresInMs)
+				const refreshTokenExpiresAt = new Date(refreshTokenExpiresInMs)
+
+				Cookies.set('accessToken', accessToken, {
+					expires: accessTokenExpiresAt,
+				})
+				Cookies.set('refreshToken', refreshToken, {
+					expires: refreshTokenExpiresAt,
+				})
+
+				queue.forEach(cb => cb(axiosInstance(originalRequest)))
+				queue = []
+
 				return axiosInstance(originalRequest)
 			} catch (err) {
-				processQueue(err, null)
-				// Cookies.remove('accessToken')
-				// Cookies.remove('refreshToken')
-				// window.location.href = '/auth/sign-in'
-				return Promise.reject(err)
+				Cookies.remove('accessToken')
+				console.log('err', err)
+				window.location.href = '/auth/sign-in'
 			} finally {
 				isRefreshing = false
 			}

@@ -1,153 +1,149 @@
-"use client";
-import React, { useRef, useState } from "react";
-import styles from "./styles.module.scss";
-import { Button, setStorageCookie } from "@/shared";
-import Link from "next/link";
-import { MoveRight } from "lucide-react";
-import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
+'use client'
+import React, { useRef, useState } from 'react'
+import styles from './styles.module.scss'
+import { Button, setStorageCookie } from '@/shared'
+import Link from 'next/link'
+import { MoveRight } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import toast from 'react-hot-toast'
 import {
-  useAuthTimer,
-  useLoginMutation,
-  useVerifyLoginMutation,
-} from "../../models";
-import { EmailInput } from "../email-input";
-import { CodeInput } from "../code-input";
-import { TimerNotice } from "../timer-notice";
+	useAuthTimer,
+	useLoginMutation,
+	useVerifyLoginMutation,
+} from '../../models'
+import { EmailInput } from '../email-input'
+import { CodeInput } from '../code-input'
+import { TimerNotice } from '../timer-notice'
+import { useMutation } from '@tanstack/react-query'
+import {
+	IAddSessionRequest,
+	SessionService,
+} from '@/shared/services/session.service'
 
 export const SignInForm = () => {
-  const { push } = useRouter();
-  const [email, setEmail] = useState("");
-  const [isSendMessageCode, setIsSendMessageCode] = useState(false);
-  const [code, setCode] = useState(Array(6).fill(""));
-  const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
+	const { push } = useRouter()
+	const [email, setEmail] = useState('')
+	const [isSendMessageCode, setIsSendMessageCode] = useState(false)
+	const [code, setCode] = useState(Array(6).fill(''))
+	const inputsRef = useRef<(HTMLInputElement | null)[]>([])
 
-  const { remainingTime, setRemainingTime } = useAuthTimer(isSendMessageCode);
+	const { remainingTime, setRemainingTime } = useAuthTimer(isSendMessageCode)
 
-  const loginMutation = useLoginMutation(() => {
-    setIsSendMessageCode(true);
-    const now = Date.now();
-    localStorage.setItem("auth-code-sent-time", now.toString());
-    setRemainingTime(120);
-  });
+	const loginMutation = useLoginMutation(() => {
+		setIsSendMessageCode(true)
+		const now = Date.now()
+		localStorage.setItem('auth-code-sent-time', now.toString())
+		setRemainingTime(120)
+	})
 
-  const verifyLoginMutation = useVerifyLoginMutation({
-    code,
-    onSuccess: (res) => {
-      setStorageCookie({
-        key: "accessToken",
-        value: res.data.tokens.accessToken,
-        expires: res.data.tokens.accessTokenExpiresAt,
-      });
-      setStorageCookie({
-        key: "refreshToken",
-        value: res.data.tokens.refreshToken,
-        expires: res.data.tokens.refreshTokenExpiresAt,
-      });
-      toast.success(res.data.message || "Успешный вход", {
-        id: "verify-login",
-      });
-      push("/");
-    },
-  });
+	const { mutate: addSession } = useMutation({
+		mutationKey: ['add-session'],
+		mutationFn: ({ expiresAt, refreshToken, userId }: IAddSessionRequest) =>
+			SessionService.addSession({ expiresAt, refreshToken, userId }),
+	})
 
-  const handleCodeChange = (index: number, value: string) => {
-    const updated = [...code];
-    updated[index] = value;
-    setCode(updated);
-  };
+	const verifyLoginMutation = useVerifyLoginMutation({
+		code,
+		addSession,
+	})
 
-  const handleBackspace = (
-    e: React.KeyboardEvent<HTMLInputElement>,
-    index: number
-  ) => {
-    if (e.key === "Backspace" && code[index] === "" && index > 0) {
-      inputsRef.current[index - 1]?.focus();
-    }
-  };
+	const handleCodeChange = (index: number, value: string) => {
+		const updated = [...code]
+		updated[index] = value
+		setCode(updated)
+	}
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (isSendMessageCode) {
-      verifyLoginMutation.mutate();
-    } else {
-      loginMutation.mutate({ identifier: email });
-    }
-  };
+	const handleBackspace = (
+		e: React.KeyboardEvent<HTMLInputElement>,
+		index: number
+	) => {
+		if (e.key === 'Backspace' && code[index] === '' && index > 0) {
+			inputsRef.current[index - 1]?.focus()
+		}
+	}
 
-  return (
-    <form onSubmit={handleSubmit} className={styles["form"]}>
-      <h3 className={styles["form-title"]}>Авторизоваться в Woorkroom</h3>
+	const handleSubmit = (e: React.FormEvent) => {
+		e.preventDefault()
+		if (isSendMessageCode) {
+			verifyLoginMutation.mutate()
+		} else {
+			loginMutation.mutate({ identifier: email })
+		}
+	}
 
-      {!isSendMessageCode ? (
-        <div className={styles["form-inputs"]}>
-          <EmailInput value={email} onChange={setEmail} />
-        </div>
-      ) : (
-        <>
-          <div className={styles["form-codes"]}>
-            <label>Введите код</label>
-            <CodeInput
-              code={code}
-              onChangeCode={handleCodeChange}
-              inputsRef={inputsRef}
-              onBackspace={handleBackspace}
-            />
-          </div>
+	return (
+		<form onSubmit={handleSubmit} className={styles['form']}>
+			<h3 className={styles['form-title']}>Авторизоваться в Woorkroom</h3>
 
-          <TimerNotice email={email} remainingTime={remainingTime} />
+			{!isSendMessageCode ? (
+				<div className={styles['form-inputs']}>
+					<EmailInput value={email} onChange={setEmail} />
+				</div>
+			) : (
+				<>
+					<div className={styles['form-codes']}>
+						<label>Введите код</label>
+						<CodeInput
+							code={code}
+							onChangeCode={handleCodeChange}
+							inputsRef={inputsRef}
+							onBackspace={handleBackspace}
+						/>
+					</div>
 
-          <div style={{ margin: "20px auto 0" }}>
-            <Button
-              type="button"
-              className={styles["form-back"]}
-              onClick={() => {
-                setIsSendMessageCode(false);
-                setCode(Array(6).fill(""));
-                localStorage.removeItem("auth-code-sent-time");
-              }}
-            >
-              Вернуться назад
-            </Button>
-          </div>
-        </>
-      )}
+					<TimerNotice email={email} remainingTime={remainingTime} />
 
-      {isSendMessageCode ? (
-        remainingTime > 0 ? (
-          <Button
-            type="submit"
-            iconRight={MoveRight}
-            isIconRight={true}
-            className={styles["form-submit"]}
-          >
-            Отправить код авторизации
-          </Button>
-        ) : (
-          <Button
-            type="button"
-            iconRight={MoveRight}
-            isIconRight={true}
-            className={styles["form-submit"]}
-            onClick={() => loginMutation.mutate({ identifier: email })}
-          >
-            Запросить код еще раз
-          </Button>
-        )
-      ) : (
-        <Button
-          type="submit"
-          iconRight={MoveRight}
-          isIconRight={true}
-          className={styles["form-submit"]}
-        >
-          Войти в аккаунт
-        </Button>
-      )}
+					<div style={{ margin: '20px auto 0' }}>
+						<Button
+							type='button'
+							className={styles['form-back']}
+							onClick={() => {
+								setIsSendMessageCode(false)
+								setCode(Array(6).fill(''))
+								localStorage.removeItem('auth-code-sent-time')
+							}}
+						>
+							Вернуться назад
+						</Button>
+					</div>
+				</>
+			)}
 
-      <Link className={styles["form-notaccount"]} href={"/"}>
-        Нет аккаунта?
-      </Link>
-    </form>
-  );
-};
+			{isSendMessageCode ? (
+				remainingTime > 0 ? (
+					<Button
+						type='submit'
+						iconRight={MoveRight}
+						isIconRight={true}
+						className={styles['form-submit']}
+					>
+						Отправить код авторизации
+					</Button>
+				) : (
+					<Button
+						type='button'
+						iconRight={MoveRight}
+						isIconRight={true}
+						className={styles['form-submit']}
+						onClick={() => loginMutation.mutate({ identifier: email })}
+					>
+						Запросить код еще раз
+					</Button>
+				)
+			) : (
+				<Button
+					type='submit'
+					iconRight={MoveRight}
+					isIconRight={true}
+					className={styles['form-submit']}
+				>
+					Войти в аккаунт
+				</Button>
+			)}
+
+			<Link className={styles['form-notaccount']} href={'/'}>
+				Нет аккаунта?
+			</Link>
+		</form>
+	)
+}
