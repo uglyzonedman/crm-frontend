@@ -1,68 +1,60 @@
-import axios from 'axios'
-import Cookies from 'js-cookie'
+import axios from "axios";
+import Cookies from "js-cookie";
 
 export const axiosInstance = axios.create({
-	baseURL: 'http://localhost:8080/api/',
-	withCredentials: true,
-})
+  baseURL: "http://localhost:8080/api/",
+  withCredentials: true,
+});
 
-let isRefreshing = false
-let queue: any[] = []
+let isRefreshing = false;
+let queue: { resolve: Function; reject: Function }[] = [];
 
-axiosInstance.interceptors.request.use(config => {
-	const token = Cookies.get('accessToken')
-	if (token) config.headers.Authorization = `Bearer ${token}`
-	return config
-})
+axiosInstance.interceptors.request.use((config) => {
+  const token = Cookies.get("accessToken");
+  if (token) config.headers.Authorization = `Bearer ${token}`;
+  return config;
+});
 
 axiosInstance.interceptors.response.use(
-	res => res,
-	async error => {
-		const originalRequest = error.config
+  (res) => res,
+  async (error) => {
+    const originalRequest = error.config;
 
-		if (error.response?.status === 401 && !originalRequest._retry) {
-			if (isRefreshing) {
-				return new Promise(resolve => queue.push(resolve))
-			}
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      if (isRefreshing) {
+        return new Promise((resolve, reject) => {
+          queue.push({ resolve, reject });
+        }).then(() => axiosInstance(originalRequest));
+      }
 
-			originalRequest._retry = true
-			isRefreshing = true
-			try {
-				const oldrefreshToken = Cookies.get('refreshToken')
-				console.log('oldrefreshToken', oldrefreshToken)
-				const res = await axiosInstance.put('/session/update-session', {
-					refreshToken: oldrefreshToken,
-				})
+      originalRequest._retry = true;
+      isRefreshing = true;
 
-				console.log('res.data', res.data)
-				const accessToken = res.data.data.accessToken
-				const refreshToken = res.data.data.refreshToken
-				const accessTokenExpiresInMs = res.data.data.accessTokenExpiresInMs
-				const refreshTokenExpiresInMs = res.data.data.refreshTokenExpiresInMs
+      try {
+        const res = await axiosInstance.put("/session/update-session");
 
-				const accessTokenExpiresAt = new Date(accessTokenExpiresInMs)
-				const refreshTokenExpiresAt = new Date(refreshTokenExpiresInMs)
+        const { accessToken, accessTokenExpiresInMs } = res.data.data;
 
-				Cookies.set('accessToken', accessToken, {
-					expires: accessTokenExpiresAt,
-				})
-				Cookies.set('refreshToken', refreshToken, {
-					expires: refreshTokenExpiresAt,
-				})
+        Cookies.set("accessToken", accessToken, {
+          expires: new Date(accessTokenExpiresInMs).getTime() / 86400000,
+        });
 
-				queue.forEach(cb => cb(axiosInstance(originalRequest)))
-				queue = []
+        queue.forEach((p) => p.resolve());
+        queue = [];
 
-				return axiosInstance(originalRequest)
-			} catch (err) {
-				Cookies.remove('accessToken')
-				console.log('err', err)
-				window.location.href = '/auth/sign-in'
-			} finally {
-				isRefreshing = false
-			}
-		}
+        return axiosInstance(originalRequest);
+      } catch (err) {
+        queue.forEach((p) => p.reject(err));
+        queue = [];
 
-		return Promise.reject(error)
-	}
-)
+        Cookies.remove("accessToken");
+        // window.location.href = "/auth/sign-in";
+        return Promise.reject(err);
+      } finally {
+        isRefreshing = false;
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
