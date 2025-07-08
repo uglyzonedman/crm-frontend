@@ -20,6 +20,15 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
+    if (
+      error.response?.status === 401 &&
+      originalRequest.url === "/session/update-session"
+    ) {
+      Cookies.remove("accessToken");
+      window.location.href = "/auth/sign-in";
+      return Promise.reject(error);
+    }
+
     if (error.response?.status === 401 && !originalRequest._retry) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
@@ -36,7 +45,7 @@ axiosInstance.interceptors.response.use(
         const { accessToken, accessTokenExpiresInMs } = res.data.data;
 
         Cookies.set("accessToken", accessToken, {
-          expires: new Date(accessTokenExpiresInMs).getTime() / 86400000,
+          expires: new Date(Date.now() + accessTokenExpiresInMs),
         });
 
         queue.forEach((p) => p.resolve());
@@ -48,7 +57,7 @@ axiosInstance.interceptors.response.use(
         queue = [];
 
         Cookies.remove("accessToken");
-        // window.location.href = "/auth/sign-in";
+        window.location.href = "/auth/sign-in";
         return Promise.reject(err);
       } finally {
         isRefreshing = false;
@@ -58,3 +67,4 @@ axiosInstance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+

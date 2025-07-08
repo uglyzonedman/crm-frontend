@@ -1,11 +1,12 @@
 import { axiosInstance } from '../api'
 import { ILoginRequest, IVerifyLogin } from '../types'
-import { IVerifyLoginResponse } from '../types/auth.types'
+import { ILoginResponse, IVerifyLoginResponse } from '../types/auth.types'
 
 export const AuthService = {
-	login: async ({ identifier }: ILoginRequest) => {
-		const res = await axiosInstance.post('auth/login', {
+	login: async ({ identifier, password }: ILoginRequest) => {
+		const res = await axiosInstance.post<ILoginResponse>('auth/login', {
 			identifier,
+			password
 		})
 		return res.data
 	},
