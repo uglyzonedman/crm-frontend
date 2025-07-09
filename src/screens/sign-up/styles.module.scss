@@ -1,8 +1,28 @@
 .sign {
-    &-up {
-        display: flex;
-        height: 100vh;
-        padding: 20px;
+  &-up {
+    display: flex;
+    height: 100vh;
+    padding: 20px;
+    &__form {
+      margin-left: 30px;
+      flex: 1;
+      background: #fff;
+      border-radius: 20px;
+      &__step {
+        display: block;
+        margin-top: 75px;
+        font-weight: bold;
+        text-align: center;
+        font-size: 18px;
+        color: #3f8cff;
+      }
+      &__title {
+        color: #0a1629;
+        font-size: 22px;
+        font-weight: bold;
+        text-align: center;
+        margin-top: 12px;
+      }
     }
-
+  }
 }
