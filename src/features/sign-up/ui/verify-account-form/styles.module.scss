@@ -1,2 +1,106 @@
 .form {
+  &-inputs {
+    max-width: 600px;
+    width: 100%;
+    margin: 20px auto 0;
+    &__input {
+      margin-bottom: 16px;
+      label {
+        display: block;
+        margin-bottom: 6px;
+      }
+    }
+    &__codes {
+      margin: 8px 0;
+      &__description {
+        margin-top: 10px;
+        display: flex;
+        background: #f4f9fd;
+        color: #3f8cff;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 20px 30px;
+        border-radius: 14px;
+        p {
+          margin-left: 10px;
+        }
+      }
+      &__inputs {
+        display: flex;
+        margin-top: 6px;
+        &__input {
+          border: 1px solid #d8e0f0;
+          background: #fff;
+          border-radius: 14px;
+          width: 58px;
+          height: 50px;
+          text-align: center;
+          font-size: 14px;
+          color: #7d8592;
+          margin-right: 10px;
+          outline: none;
+          &::placeholder {
+            font-size: 14px;
+            color: #7d8592;
+          }
+        }
+      }
+    }
+    &__roles {
+      label {
+        display: block;
+        margin-bottom: 6px;
+      }
+      &__content {
+        display: flex;
+        align-items: center;
+      }
+      &__item {
+        &__active {
+          margin-right: 16px;
+          background: #3f8cff;
+          padding: 12px 20px;
+          cursor: pointer;
+          border-radius: 10px;
+          font-size: 14px;
+          color: #fff;
+        }
+        &__default {
+          margin-right: 16px;
+          background: #fff;
+          border: 1px solid #d8e0f0;
+          padding: 12px 20px;
+          cursor: pointer;
+          border-radius: 10px;
+          font-size: 14px;
+          color: #7d8592;
+        }
+        &__title {
+          font-size: 14px;
+          color: #7d8592;
+        }
+      }
+    }
+  }
 }
+
+// .form-inputs__codes__inputs {
+//   display: flex;
+//   gap: 12px;
+//   margin-top: 8px;
+// }
+
+// .code-input {
+//   width: 48px;
+//   height: 48px;
+//   font-size: 24px;
+//   text-align: center;
+//   border: 1px solid #ccc;
+//   border-radius: 8px;
+//   outline: none;
+//   transition: border-color 0.2s;
+
+//   &:focus {
+//     border-color: #3f8cff;
+//   }
+// }

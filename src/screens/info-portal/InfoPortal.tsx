@@ -1,10 +1,8 @@
-'use client'
-import React from 'react'
-import styles from './styles.module.scss'
-import Image from 'next/image'
-import { Button } from '@/shared'
-import { PromoOrganization } from '@/widgets'
-import { PromoUsers } from '@/entities'
+'use client';
+import React from 'react';
+import styles from './styles.module.scss';
+import { PromoUsers } from '@/entities';
+import { PromoOrganization } from '@/widgets/info-portal';
 export const InfoPortal = () => {
   return (
     <div className={styles['info']}>
@@ -12,5 +10,5 @@ export const InfoPortal = () => {
       <PromoOrganization />
       <PromoUsers />
     </div>
-  )
-}
+  );
+};
