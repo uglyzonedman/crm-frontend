@@ -1,1 +1,1 @@
-export { SignUpForm } from './sign-up-form'
+export { VerifyAccountForm } from './verify-account-form';

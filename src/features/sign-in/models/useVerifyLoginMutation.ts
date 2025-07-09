@@ -1,16 +1,15 @@
 import { useMutation } from "@tanstack/react-query";
-import { AuthService } from "@/shared";
+import { AuthService, setStorageCookie } from "@/shared";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 type VerifyLoginOptions = {
   code: string[];
-  onSuccess: (res: any) => void;
 };
 
-export const useVerifyLoginMutation = ({
-  code,
-  onSuccess,
-}: VerifyLoginOptions) => {
+export const useVerifyLoginMutation = ({ code }: VerifyLoginOptions) => {
+  const { push } = useRouter();
+
   return useMutation({
     mutationKey: ["verify-login"],
     mutationFn: () => AuthService.verifyLogin({ code: code.join("") }),
@@ -19,7 +18,14 @@ export const useVerifyLoginMutation = ({
     },
     onSuccess: (res) => {
       if (res.status === "success") {
-        onSuccess(res);
+        toast.success("Успешный вход");
+        setStorageCookie({
+          key: "accessToken",
+          value: res.data.tokens.accessToken,
+          expires: res.data.tokens.accessTokenExpiresAt,
+        });
+
+        push("/");
       } else {
         toast.error("Неверный код", { id: "verify-login" });
       }
