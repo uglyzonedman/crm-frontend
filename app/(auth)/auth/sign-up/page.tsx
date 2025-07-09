@@ -1,12 +1,9 @@
-'use client'
 
-import { SignUpScreen } from '@/screens/sign-up'
+import { SignUpScreen } from '@/screens'
 import React from 'react'
 
 const SignUpPage = () => {
-    return (
-        <SignUpScreen />
-    )
+  return <SignUpScreen />
 }
 
 export default SignUpPage
