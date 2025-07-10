@@ -1,28 +1,26 @@
-import React, { useRef, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import styles from './styles.module.scss';
-import { Button, Input, Label } from '@/shared';
-import { useQuery } from '@tanstack/react-query';
-import { RoleService } from '@/shared/services/role.service';
+import { AuthService, Button, Input, Label } from '@/shared';
 import { Info } from 'lucide-react';
+import { useMutation } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
+import { useAuthStore } from '../../models/store';
 
 export const VerifyAccountForm = () => {
-  const { data: roles, isLoading: isLoadingRoles } = useQuery({
-    queryKey: ['get-all-roles-without-admin'],
-    queryFn: () => RoleService.getAllRolesWithoutAdmin(),
-  });
-
+  const {
+    setEmail,
+    setCodeExpiresAt,
+    codeExpiresAt,
+    isSendCode,
+    setIsSendCode,
+    setCompletedStep,
+    isConfirmEmail,
+    setIsConfirmEmail,
+  } = useAuthStore(state => state);
   const [data, setData] = useState<{
     email: string;
-    login: string;
-    password: string;
-    repeatPassword: string;
-    roleId: string;
-  }>({ email: '', login: '', password: '', repeatPassword: '', roleId: '' });
-
-  const onChangeData = (
-    key: 'email' | 'login' | 'password' | 'repeatPassword' | 'roleId',
-    value: string
-  ) => {
+  }>({ email: '' });
+  const onChangeData = (key: 'email', value: string) => {
     setData(prev => ({
       ...prev,
       [key]: value,
@@ -71,6 +69,57 @@ export const VerifyAccountForm = () => {
     e.preventDefault();
   };
 
+  const { mutate: sendCode } = useMutation({
+    mutationKey: ['send-code'],
+    mutationFn: () => AuthService.sendCode({ email: data.email }),
+    onSuccess: res => {
+      toast.success(res.message);
+      setEmail(data.email);
+      const expiresAtSeconds = Math.floor(new Date(res.data.codeExpiresAt).getTime() / 1000);
+      setCodeExpiresAt(expiresAtSeconds);
+      setIsSendCode(true);
+    },
+  });
+
+  const { mutate: verifyAccount } = useMutation({
+    mutationKey: ['verify-account'],
+    mutationFn: () => AuthService.verifyAccount({ code: code.join('') }),
+    onSuccess: data => {
+      toast.success(data.message);
+      setCompletedStep(1, true);
+      setIsConfirmEmail(true);
+    },
+  });
+
+  const [timeLeft, setTimeLeft] = useState(0);
+
+  useEffect(() => {
+    if (!isSendCode || !codeExpiresAt) return;
+
+    const interval = setInterval(() => {
+      const now = Math.floor(Date.now() / 1000);
+      const diff = codeExpiresAt - now;
+
+      if (diff <= 0) {
+        setIsSendCode(false);
+        clearInterval(interval);
+        setTimeLeft(0);
+      } else {
+        setTimeLeft(diff);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [isSendCode, codeExpiresAt]);
+
+  const formatTime = (seconds: number) => {
+    const m = Math.floor(seconds / 60)
+      .toString()
+      .padStart(2, '0');
+    const s = (seconds % 60).toString().padStart(2, '0');
+    return `${m}:${s}`;
+  };
+
   return (
     <form className={styles['form']}>
       <div className={styles['form-inputs']}>
@@ -84,65 +133,91 @@ export const VerifyAccountForm = () => {
               value={data.email}
               style={{ flex: 1 }}
             />
+            {!isSendCode && (
+              <Button
+                style={{ marginTop: '16px' }}
+                type="button"
+                disabled={!data.email.trim()}
+                onClick={() => {
+                  sendCode();
+                }}
+              >
+                Отправить код
+              </Button>
+            )}
+          </div>
+        </div>
+        {isSendCode && !isConfirmEmail && (
+          <Button
+            type="button"
+            typeStyle="danger"
+            style={{ marginTop: '10px' }}
+            onClick={() => {
+              setIsSendCode(false);
+              setIsConfirmEmail(false);
+              setData({ email: '' });
+              setCode(['', '', '', '']);
+              setTimeLeft(0);
+            }}
+          >
+            Отменить
+          </Button>
+        )}
+        {isSendCode && timeLeft > 0 && !isConfirmEmail && (
+          <div className={styles['form-inputs__codes']}>
+            <Label>Код подтверждения</Label>
+            <div className={styles['form-inputs__codes__inputs']}>
+              {code.map((digit, idx) => (
+                <input
+                  key={idx}
+                  type="text"
+                  maxLength={1}
+                  className={styles['form-inputs__codes__inputs__input']}
+                  value={digit}
+                  onChange={e => handleCodeChange(e, idx)}
+                  onKeyDown={e => handleKeyDown(e, idx)}
+                  onPaste={handlePaste}
+                  ref={el => (codeRefs.current[idx] = el)}
+                />
+              ))}
+            </div>
+            <div>
+              <div className={styles['form-inputs__codes__description']}>
+                <Info />
+                <p>Вам отправлено сообщение на почту. Код действителен – {formatTime(timeLeft)}</p>
+              </div>
+              <Button type="button" typeStyle="success" onClick={() => verifyAccount()}>
+                Подтвердить код
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {isSendCode && timeLeft == 0 && !isConfirmEmail && (
+          <div>
+            <div className={styles['form-inputs__codes__description']}>
+              <Info />
+              <p>Ваш код больше не является валидным</p>
+            </div>
             <Button
-              style={{ marginTop: '16px', cursor: 'pointer', padding: '8px' }}
+              typeStyle="warning"
+              style={{ marginTop: '10px' }}
               type="button"
-              disabled={!data.email.trim()}
-              onClick={() => {
-                console.log('Отправка кода на:', data.email);
-              }}
+              onClick={() => sendCode()}
             >
-              Отправить код
+              Отправить код повторно
             </Button>
           </div>
-        </div>
-        <div className={styles['form-inputs__codes']}>
-          <Label>Код подтверждения</Label>
-          <div className={styles['form-inputs__codes__inputs']}>
-            {code.map((digit, idx) => (
-              <input
-                key={idx}
-                type="text"
-                maxLength={1}
-                className={styles['form-inputs__codes__inputs__input']}
-                value={digit}
-                onChange={e => handleCodeChange(e, idx)}
-                onKeyDown={e => handleKeyDown(e, idx)}
-                onPaste={handlePaste}
-                ref={el => (codeRefs.current[idx] = el)}
-              />
-            ))}
-          </div>
+        )}
+
+        {isConfirmEmail && (
           <div className={styles['form-inputs__codes__description']}>
             <Info />
-            <p>Вам отправлено сообщение на почту. Код действителен - 2:39 </p>
+            <p>Вы успешно подтвердили свою почту</p>
           </div>
-        </div>
-        <div className={styles['form-inputs__input']}>
-          <Label>Логин</Label>
-          <Input
-            onChange={e => onChangeData('login', e.target.value)}
-            type="text"
-            placeholder="test"
-          />
-        </div>
-        <div className={styles['form-inputs__input']}>
-          <Label>Пароль</Label>
-          <Input
-            onChange={e => onChangeData('password', e.target.value)}
-            type="password"
-            placeholder="************"
-          />
-        </div>
-        <div className={styles['form-inputs__input']}>
-          <Label>Подтвердите пароль</Label>
-          <Input
-            onChange={e => onChangeData('repeatPassword', e.target.value)}
-            type="password"
-            placeholder="************"
-          />
-        </div>
-        <div className={styles['form-inputs__roles']}>
+        )}
+
+        {/* <div className={styles['form-inputs__roles']}>
           <Label>Выберите роль</Label>
           <div className={styles['form-inputs__roles__content']}>
             {isLoadingRoles
@@ -161,7 +236,7 @@ export const VerifyAccountForm = () => {
                   </div>
                 ))}
           </div>
-        </div>
+        </div>     */}
       </div>
     </form>
   );

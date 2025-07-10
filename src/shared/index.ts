@@ -6,6 +6,10 @@ export {
   type IGetMeResponse,
   type IVerifyLogin,
   type IGetAllRolesWithoutAdminResponse,
+  type ISendCodeRequest,
+  type ISendCodeResponse,
+  type IVerifyAccountRequest,
+  type IVerifyAccountResponse,
 } from './types';
 export { AuthService, UserService } from './services';
 export { useMe } from './hooks';

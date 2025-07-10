@@ -1,22 +1,108 @@
 .primary {
-	display: flex;
-	background: #3f8cff;
-	color: #fff;
-	border: none;
-	align-items: center;
-	font-size: 16px;
-	font-weight: bold;
-	padding: 12px 42px;
-	border-radius: 14px;
+  display: flex;
+  background: #3f8cff;
+  color: #fff;
+  border: none;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 12px 42px;
+  border-radius: 14px;
+  cursor: pointer;
 }
 
+// Дополнительные стили кнопок:
+
+.secondary {
+  display: flex;
+  background: #e6e8ec;
+  color: #3f8cff;
+  border: 2px solid #3f8cff;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 12px 42px;
+  border-radius: 14px;
+  cursor: pointer;
+
+  &:hover {
+    background: #dfe3eb;
+  }
+}
+
+.success {
+  display: flex;
+  background: #28a745;
+  color: #fff;
+  border: none;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 12px 42px;
+  border-radius: 14px;
+  cursor: pointer;
+
+  &:hover {
+    background: #218838;
+  }
+}
+
+.warning {
+  display: flex;
+  background: #ffc107;
+  color: #fff;
+  border: none;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 12px 42px;
+  border-radius: 14px;
+  cursor: pointer;
+
+  &:hover {
+    background: #e0a800;
+  }
+}
+
+.danger {
+  display: flex;
+  background: #dc3545;
+  color: #fff;
+  border: none;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 12px 42px;
+  border-radius: 14px;
+  cursor: pointer;
+
+  &:hover {
+    background: #c82333;
+  }
+}
+
+.ghost {
+  display: flex;
+  background: transparent;
+  background: #ced5e0;
+  color: #ffffff;
+  border: 2px solid transparent;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 12px 42px;
+  border-radius: 14px;
+  cursor: pointer;
+}
+
+// Иконки
 .icon {
-	&-right {
-		display: flex;
-		margin-left: 8px;
-	}
-	&-left {
-		margin-right: 8px;
-		display: flex;
-	}
+  &-right {
+    display: flex;
+    margin-left: 8px;
+  }
+  &-left {
+    margin-right: 8px;
+    display: flex;
+  }
 }
