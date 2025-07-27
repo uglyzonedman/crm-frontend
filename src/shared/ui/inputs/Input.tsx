@@ -1,38 +1,24 @@
-import React from 'react'
-import styles from './styles.module.scss'
-import { Eye, EyeOff } from 'lucide-react'
+'use client';
+import React, { useState } from 'react';
+import { Eye, EyeOff } from 'lucide-react';
+import styles from './styles.module.scss';
 
-type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
-	showPassword?: boolean
-	setShowPassword?: (bool: boolean) => void
-}
+type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
 
-export const Input = ({
-	setShowPassword,
-	showPassword,
-	type,
-	...rest
-}: InputProps) => {
-	const getInputType = (inputType: string | undefined): string => {
-		if (inputType === 'password') {
-			return showPassword ? 'text' : 'password'
-		}
-		return inputType || 'text'
-	}
-	return (
-		<div className={styles['input']}>
-			<input {...rest} type={getInputType(type)} />
+export const Input = ({ type = 'text', ...rest }: InputProps) => {
+  const isPassword = type === 'password';
+  const [showPassword, setShowPassword] = useState(false);
 
-			{type === 'password' &&
-				typeof showPassword === 'boolean' &&
-				setShowPassword && (
-					<div
-						onClick={() => setShowPassword(!showPassword)}
-						style={{ cursor: 'pointer', display: 'flex' }}
-					>
-						{showPassword ? <EyeOff /> : <Eye />}
-					</div>
-				)}
-		</div>
-	)
-}
+  const inputType = isPassword ? (showPassword ? 'text' : 'password') : type;
+
+  return (
+    <div className={styles.input}>
+      <input type={inputType} {...rest} />
+      {isPassword && (
+        <span onClick={() => setShowPassword(prev => !prev)}>
+          {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+        </span>
+      )}
+    </div>
+  );
+};

@@ -14,4 +14,4 @@ export {
   useVerifyLoginMutation,
 } from './sign-in';
 
-export { VerifyAccountForm } from './sign-up';
+export { VerifyAccountForm, CreateAccount, createAccountSchema } from './sign-up';

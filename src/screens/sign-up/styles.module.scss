@@ -5,14 +5,15 @@
     padding: 20px;
     &__form {
       margin-left: 30px;
-      flex: 1;
+      width: 100%;
       background: #fff;
       border-radius: 20px;
       display: flex;
-      flex-direction: column;
-
       justify-content: space-between;
       &__content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         &__step {
           display: block;
           margin-top: 100px;
@@ -28,14 +29,6 @@
           text-align: center;
           margin-top: 12px;
         }
-      }
-
-      &__footer {
-        cursor: pointer;
-        display: flex;
-        justify-content: flex-end;
-        padding: 10px;
-        border-top: 2px solid #e4e6e8;
       }
     }
   }

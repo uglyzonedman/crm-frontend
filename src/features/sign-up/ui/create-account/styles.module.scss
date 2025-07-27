@@ -1,0 +1,45 @@
+.create {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  &-title {
+    color: #0a1629;
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 12px;
+  }
+  &-step {
+    display: block;
+    margin-top: 100px;
+    font-weight: bold;
+    text-align: center;
+    font-size: 18px;
+    color: #3f8cff;
+  }
+  &-form {
+    max-width: 600px;
+    width: 100%;
+    margin: 20px auto 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-input {
+    margin-bottom: 16px;
+
+    & > label {
+      display: block;
+      margin-bottom: 6px;
+    }
+  }
+}
+
+.create-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
+  bottom: 0;
+  padding: 10px;
+  border-top: 2px solid #e4e6e8;
+}
